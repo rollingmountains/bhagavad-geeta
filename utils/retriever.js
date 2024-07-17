@@ -15,10 +15,6 @@ const openaiApiKey = process.env.OPENAI_API_KEY;
 const sbApiKey = process.env.SUPABASE_API_KEY;
 const subUrl = process.env.SUPABASE_URL;
 
-console.log('openapi: ', openaiApiKey);
-console.log('supaapi: ', sbApiKey);
-console.log('supaurl: ', subUrl);
-
 //Setup embedding and Supabase connection
 const embeddings = new OpenAIEmbeddings({ openaiApiKey });
 const client = createClient(subUrl, sbApiKey);
