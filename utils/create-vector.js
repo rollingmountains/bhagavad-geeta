@@ -13,7 +13,7 @@ import path from 'path';
 
 // Get the directory name of the current module file
 const __dirname = dirname(fileURLToPath(import.meta.url));
-dotenv.config({ path: path.resolve(__dirname, '../.env') });
+dotenv.config({ path: path.resolve(__dirname, './.env') });
 
 //Data load, transform and embed
 
