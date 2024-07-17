@@ -18,13 +18,16 @@ async function sendMessage() {
 
   try {
     // Send the message to the backend AI (replace 'http://localhost:3000/api/chat' with your actual backend endpoint)
-    const response = await fetch('https://bhagavad-geeta.onrender.com/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ message: message }),
-    });
+    const response = await fetch(
+      'https://bhagavad-geeta.onrender.com/api/chat',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: message }),
+      }
+    );
 
     if (!response.ok) {
       throw new Error('Network response was not ok');
