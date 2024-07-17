@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Chat Bot</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div id="left-panel">
+    <img src="images/logo.png" alt="AI Logo">
+    <div class="description">
+        <p>Ask me anything. I'll do my best to answer.</p>
+    </div>
+</div>
+
+<div id="chat-container">
+    <div id="chat-header">
+        Chat Box
+    </div>
+    <div id="chat-history">
+        <!-- Chat history will be dynamically populated here -->
+    </div>
+    <div id="user-input">
+        <input type="text" id="message" placeholder="Ask me a question..." onkeydown="handleKeyDown(event)">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
