@@ -17,7 +17,6 @@ dotenv.config();
 const openaiApiKey = process.env.OPENAI_API_KEY;
 const upstashUrl = process.env.UPSTASH_URL;
 const upstashToken = process.env.UPSTASH_REDIS_TOKEN;
-console.log(upstashUrl, upstashToken);
 
 // export function combineDocuments(docs) {
 //   return docs.map((doc) => doc.pageContent).join('\n\n');
