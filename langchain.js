@@ -7,11 +7,17 @@ import {
 import { ChatPromptTemplate } from '@langchain/core/prompts';
 import { retriever } from './utils/retriever.js';
 import { combineDocuments } from './utils/combine-retrieved-doc.js';
+import { BufferMemory } from 'langchain/memory';
+import { UpstashRedisChatMessageHistory } from '@langchain/community/stores/message/upstash_redis';
+import { ConversationChain } from 'langchain/chains';
 
 import * as dotenv from 'dotenv';
-dotenv.config({});
+dotenv.config();
 
 const openaiApiKey = process.env.OPENAI_API_KEY;
+const upstashUrl = process.env.UPSTASH_URL;
+const upstashToken = process.env.UPSTASH_REDIS_TOKEN;
+console.log(upstashUrl, upstashToken);
 
 // export function combineDocuments(docs) {
 //   return docs.map((doc) => doc.pageContent).join('\n\n');
@@ -47,6 +53,21 @@ const model = new ChatOpenAI({
 
 const parser = new StringOutputParser();
 
+const memory = new BufferMemory({
+  chatHistory: new UpstashRedisChatMessageHistory({
+    sessionId: '123',
+    config: {
+      url: upstashUrl,
+      token: upstashToken,
+    },
+  }),
+});
+
+const chatHistoryChain = new ConversationChain({
+  llm: model,
+  memory,
+});
+
 const standAloneQuestionChain = RunnableSequence.from([
   standaloneQuestionPrompt,
   model,
@@ -63,6 +84,7 @@ const answerChain = RunnableSequence.from([answerPrompt, model, parser]);
 
 const chain = () =>
   RunnableSequence.from([
+    chatHistoryChain,
     {
       standalone_question: standAloneQuestionChain,
       original_input: new RunnablePassthrough(),
