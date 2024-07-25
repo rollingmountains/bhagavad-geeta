@@ -17,9 +17,13 @@ async function sendMessage() {
   messageInput.value = '';
 
   try {
+    const backendUrl =
+      window.location.hostname === 'localhost'
+        ? 'http://localhost:3000/api/chat'
+        : 'https://bhagavad-geeta.onrender.com/api/chat';
     // Send the message to the backend AI (replace 'http://localhost:3000/api/chat' with your actual backend endpoint)
     const response = await fetch(
-      'https://bhagavad-geeta.onrender.com/api/chat',
+      backendUrl, // https://bhagavad-geeta.onrender.com/api/chat
       {
         method: 'POST',
         headers: {
@@ -43,7 +47,7 @@ async function sendMessage() {
     displayMessage(aiMessage, 'ai'); // Ensure 'ai' is passed as sender
   } catch (error) {
     console.error('Error:', error);
-    displayMessage('Error: Unable to get response from the server', 'ai');
+    displayMessage('Error:', error);
   }
 }
 

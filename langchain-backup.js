@@ -63,6 +63,11 @@ const memory = new BufferMemory({
 
 const chat_history = await memory.loadMemoryVariables();
 
+// const chatHistoryChain = new ConversationChain({
+//   llm: model,
+//   memory,
+// });
+
 const standAloneQuestionChain = RunnableSequence.from([
   standaloneQuestionPrompt,
   model,

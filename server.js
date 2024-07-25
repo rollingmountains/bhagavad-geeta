@@ -3,17 +3,19 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { initializeLangChain } from './langchain.js';
-
+import { initializeLangChain, chatHistoryMemory } from './langchain.js';
+// import { initializeLangChain, chatHistoryMemory } from './langchain-backup.js';
+//
 const app = express();
 const PORT = process.env.PORT || 3000;
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
 
 // __dirname workaround for ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const corsOptions = {
-  origin: 'https://bhagavadgeeta.netlify.app', // frontend URL
+  origin: FRONTEND_URL,
   optionsSuccessStatus: 200,
 };
 
@@ -36,8 +38,11 @@ app.post('/api/chat', async (req, res) => {
     }
 
     // Invoke the LangChain sequence with user input
-    const response = await chainInstance.invoke({ question: userMessage });
-    // console.log(response);
+    const response = await chainInstance.invoke({
+      input: userMessage,
+      chat_history: chatHistoryMemory.history,
+    });
+    console.log(response);
 
     // Send the AI message back to the frontend
     res.json({ response: response });
@@ -48,5 +53,5 @@ app.post('/api/chat', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on ${FRONTEND_URL}`);
 });
